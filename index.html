@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Scardov</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    color: white;
+    background: black;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.card {
+    display: flex;
+    gap: 30px;
+    background: rgba(0,0,0,0.65);
+    padding: 40px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px rgba(255,255,255,0.15);
+}
+
+.avatar {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 20px white;
+}
+
+.info {
+    max-width: 520px;
+}
+
+h1 {
+    margin: 0;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+h2 {
+    margin: 5px 0 15px;
+    font-size: 14px;
+    opacity: 0.6;
+}
+
+.subtitle {
+    opacity: 0.7;
+    margin-bottom: 15px;
+}
+
+.link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    border: 1px solid white;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+.link:hover {
+    background: white;
+    color: black;
+    box-shadow: 0 0 25px white;
+}
+
+/* текст */
+#typing {
+    line-height: 1.7;
+    white-space: pre-line;
+    opacity: 0.9;
+}
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    background: white;
+    margin-left: 5px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+</style>
+
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="container">
+    <div class="card">
+
+        <img class="avatar" src="avatar.jpg">
+
+        <div class="info">
+            <h1>SCARDOV</h1>
+            <h2>Who is Scardov?</h2>
+
+            <div class="subtitle">
+                Cybersecurity • OSINT • Digital Risk Analysis • Intelligence
+            </div>
+
+            <div id="typing"></div><span class="cursor"></span>
+
+            <a class="link" href="#" target="_blank">
+                Profile Link
+            </a>
+
+            <p style="opacity:0.25; font-size:12px; margin-top:15px;">
+                Scardov is a cybersecurity enthusiast focused on OSINT and digital intelligence.
+            </p>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+
+for (let i = 0; i < 160; i++) {
+    stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2,
+        speed: Math.random() * 0.5
+    });
+}
+
+function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "white";
+
+    stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        star.y += star.speed;
+
+        if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
+        }
+    });
+
+    requestAnimationFrame(drawStars);
+}
+
+drawStars();
+
+const text = `Scardov is a cybersecurity enthusiast focused on OSINT investigations, digital risk analysis, and online intelligence gathering.
+
+He specializes in identifying hidden connections, analyzing open data sources, and uncovering publicly available information that can be used to assess security risks.
+
+With a strong interest in online anonymity, threat awareness, and digital behavior patterns, Scardov works on improving understanding of how information spreads and how it can be controlled.
+
+His approach combines analytical thinking with technical knowledge, making complex cybersecurity concepts more practical and accessible.`;
+
+let i = 0;
+const speed = 18;
+
+function typeWriter() {
+    if (i < text.length) {
+        document.getElementById("typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+    }
+}
+
+typeWriter();
+</script>
+
+</body>
+</html>
